@@ -15,6 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -85,6 +89,24 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+//            String outputFile =
+//                    Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/sng.mp3";
+//
+//            byte[] soundBytes;
+//
+//            try {
+//                InputStream inputStream = getResources().openRawResource(R.raw.sng);
+////                        getContentResolver().openInputStream(Uri.fromFile(
+////                                new File(Uri.parse("android.resource://"+getPackageName()+R.raw.sng).getPath())));
+//
+//                soundBytes = new byte[inputStream.available()];
+//                soundBytes = toByteArray(inputStream);
+//
+//                Toast.makeText(this, "Recordin Finished"+ " " + soundBytes, Toast.LENGTH_LONG).show();
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+
             Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 // Start without a delay
@@ -106,5 +128,18 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public byte[] toByteArray(InputStream in) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int read = 0;
+        byte[] buffer = new byte[1024];
+        while (read != -1) {
+            read = in.read(buffer);
+            if (read != -1)
+                out.write(buffer,0,read);
+        }
+        out.close();
+        return out.toByteArray();
     }
 }
